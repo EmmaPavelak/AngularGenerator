@@ -1,0 +1,45 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Product } from '../models/products';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ProductService {
+  prefixePath = 'api';
+  resourcePath = 'products';
+
+  constructor(private http: HttpClient) {}
+
+  findAll() {
+    return this.http.get<Product[]>(
+      '/' + this.prefixePath + '/' + this.resourcePath
+    );
+  }
+
+  getById(id: string) {
+    return this.http.get(
+      '/' + this.prefixePath + '/' + this.resourcePath + '/' + id
+    );
+  }
+
+  create(obj: Product) {
+    return this.http.post(
+      '/' + this.prefixePath + '/' + this.resourcePath,
+      obj
+    );
+  }
+
+  update(id: number, obj: Product) {
+    return this.http.put(
+      '/' + this.prefixePath + '/' + this.resourcePath + '/' + id,
+      obj
+    );
+  }
+
+  delete(id: number) {
+    return this.http.delete(
+      '/' + this.prefixePath + '/' + this.resourcePath + '/' + id
+    );
+  }
+}

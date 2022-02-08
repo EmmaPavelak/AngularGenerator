@@ -1,0 +1,52 @@
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ProductsService } from '../services/product.service';
+import { Product } from '../models/product';
+
+@Component({
+  selector: 'app-product',
+  templateUrl: './product.component.html',
+  styleUrls: ['./product.component.scss'],
+})
+export class ProductComponent implements OnInit {
+
+
+  constructor(private productsService: ProductsService) {}
+
+  products: Product[] = [];
+
+  formGroup = new FormGroup({
+      name: new FormControl('', Validators.required),
+      price: new FormControl('', Validators.required),
+      img: new FormControl('', Validators.required),
+  });
+
+  ngOnInit(): void {
+    this.getAllProduct();
+  }
+
+  getAllProduct() {
+    this.productsService.findAll().subscribe((dataProduct: Product[]) => {
+      this.products = dataProduct;
+    });
+  }
+  addProduct() {
+    this.productsService
+      .create(this.formGroup.value)
+      .subscribe((dataProduct) => {
+        console.log(dataProduct);
+      });
+    location.reload();
+  }
+  deleteProduct(id:number) {
+    this.productsService.delete(id).subscribe((dataProduct) => {
+      console.log(dataProduct);
+    });
+    location.reload();
+  }
+  editProduct(id:number) {
+    this.productsService.update(id, this.formGroup.value).subscribe();
+    location.reload();
+  }
+
+}
