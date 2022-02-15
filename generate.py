@@ -91,23 +91,82 @@ def generate(project):
 
             #remplir header html
             fichier = open("src/app/includes/header/header.component.html", "w")
-            fichier.write("<header><h1>Bonjour monde</h1></header>")
+            fichier.write("""<header>
+            <img
+                class="fit-picture"
+                src="assets/img/logo.png"
+                alt="logo"
+            />
+            <nav>
+                <ul>
+                <li>Home</li>
+                <li>Contact</li>
+                </ul>
+            </nav>
+            </header>""")
             fichier.close()
 
             #remplir header style
             fichier = open("src/app/includes/header/header.component.scss", "w")
-            fichier.write("header{background-color:grey;padding:10px;}")
+            fichier.write("""header {
+            background-color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            img {
+                width: 250px;
+                padding: 20px;
+            }
+            nav {
+                ul {
+                list-style: none;
+                display: flex;
+                li {
+                    padding: 20px;
+                }
+                }
+            }
+            }
+            """)
             fichier.close()
 
             #remplir footer html
             fichier = open("src/app/includes/footer/footer.component.html", "w")
-            fichier.write("<footer> Site 2022</footer>")
+            fichier.write("""<footer>
+            <div>{{title}} © {{ currentYear }} - Tous droits réservés</div>
+            </footer>""")
             fichier.close()
 
             #remplir footer style
             fichier = open("src/app/includes/footer/footer.component.scss", "w")
-            fichier.write("footer{text-align:center;background-color:grey;padding:10px;}")
+            fichier.write("""footer {
+                background-color: grey;
+                color: #fff;
+                text-align: center;
+                padding: 10px;
+                }
+                """)
             fichier.close()
+
+            #remplir footer component
+            fichier = open("src/app/includes/footer/footer.component.ts", "w")
+            fichier.write("""import { Component, OnInit } from '@angular/core';
+            @Component({
+            selector: 'app-footer',
+            templateUrl: './footer.component.html',
+            styleUrls: ['./footer.component.scss'],
+            })
+            export class FooterComponent implements OnInit {
+            currentYear = new Date().getFullYear();
+
+            constructor() {}
+
+            ngOnInit(): void {}
+            }
+                """)
+            fichier.close()
+
+
 
             #remplir app component
             fichier = open("src/app/app.component.html", "w")
